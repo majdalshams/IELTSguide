@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Offline interactive study guide for IELTS Speaking Part 1 topic Study / Work: 5 questions, sample answers, 14 key phrases, flashcards, notes and progress tracking.">
+<title>IELTS Speaking Part 1 — Interactive Study Guide (offline)</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
+<style>
+:root{
+  --bg:#f6f4ef; --card:#ffffff; --ink:#232a33; --muted:#6b7280;
+  --navy:#1d3557; --navy-soft:#eef3f9;
+  --accent:#b42318; --accent-soft:#fdecea;
+  --green:#15803d; --green-soft:#e8f5ec;
+  --amber:#b45309; --amber-soft:#fdf3e3;
+  --line:#e3e0d8; --danger:#b42318;
+  --shadow:0 1px 3px rgba(20,24,31,.08),0 8px 24px rgba(20,24,31,.06);
+  --radius:14px;
+}
+[data-theme="dark"]{
+  --bg:#131519; --card:#1c2027; --ink:#e7e9ee; --muted:#9aa3af;
+  --navy:#8fb8e8; --navy-soft:#1f2836;
+  --accent:#ff8a7a; --accent-soft:#2b1d1c;
+  --green:#6fd39a; --green-soft:#17251c;
+  --amber:#eab069; --amber-soft:#2a2216;
+  --line:#2a2f38; --danger:#ff8a7a;
+  --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+  font-size:clamp(.95rem,.25vw + .88rem,1.02rem); line-height:1.6;
+}
+.wrap{max-width:880px;margin:0 auto;padding:0 clamp(14px,4vw,24px)}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---------- header ---------- */
+.site-header{padding:clamp(20px,4vw,34px) 0 0}
+.header-row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.kicker{margin:0;font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+h1{margin:.05em 0 .1em;font-size:clamp(2rem,5.5vw,2.8rem);font-weight:800;letter-spacing:.03em;color:var(--accent)}
+.sub{margin:0;color:var(--muted);font-size:.92rem}
+.progress-wrap{margin-top:18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.progress-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.85rem;margin-bottom:8px}
+#progressLabel{font-weight:700;color:var(--navy)}
+.link-btn{border:none;background:none;color:var(--muted);text-decoration:underline;padding:2px 4px;font-size:.85rem}
+.link-btn:hover{color:var(--danger)}
+.link-btn.danger{color:var(--danger);font-weight:700}
+.bar{height:8px;border-radius:999px;background:var(--line);overflow:hidden}
+.fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--navy),var(--accent));transition:width .35s ease}
+.icon-btn{width:38px;height:38px;min-width:38px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-size:1.05rem;display:inline-flex;align-items:center;justify-content:center;color:var(--ink);transition:background .15s}
+.icon-btn:hover{background:var(--navy-soft)}
+
+/* ---------- topic picker ---------- */
+.topic-bar{display:flex;gap:8px;flex-wrap:wrap;padding:16px 0 2px}
+.topic-pill{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:.5rem 1.05rem;font-weight:700;color:var(--muted);font-size:.92rem;transition:background .15s}
+.topic-pill:hover{background:var(--navy-soft);color:var(--navy)}
+.topic-pill.active{background:var(--navy);border-color:var(--navy);color:#fff}
+[data-theme="dark"] .topic-pill.active{color:#12202e}
+
+/* ---------- tabs ---------- */
+.tabs-bar{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:.25rem;overflow-x:auto;padding:.5rem 0;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:none;background:transparent;padding:.5rem .95rem;border-radius:999px;font-weight:600;color:var(--muted);white-space:nowrap;font-size:.92rem}
+.tab:hover{background:var(--navy-soft);color:var(--navy)}
+.tab.active{background:var(--navy-soft);color:var(--navy)}
+
+main{padding:8px 0 0}
+.panel{padding-top:14px}
+.panel-intro{color:var(--muted);font-size:.92rem;margin:6px 0 14px}
+
+/* ---------- toolbar ---------- */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0 16px}
+.btn{border:1px solid var(--line);background:var(--card);padding:.55rem .95rem;border-radius:10px;font-weight:600;color:var(--navy);font-size:.92rem;transition:background .15s}
+.btn:hover{background:var(--navy-soft)}
+.btn.small{padding:.35rem .7rem;font-size:.82rem}
+.btn.on{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.hint{color:var(--muted);font-size:.85rem}
+
+/* ---------- question cards ---------- */
+.card{margin:14px 0;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(14px,3vw,20px)}
+.card.done{box-shadow:inset 4px 0 0 var(--green),var(--shadow)}
+.q-row{display:flex;gap:12px;align-items:flex-start}
+.q-num{min-width:34px;height:34px;border-radius:10px;background:var(--navy-soft);color:var(--navy);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.q-text{margin:2px 0 0;flex:1 1 220px;color:var(--navy);font-size:clamp(1.02rem,.5vw + .97rem,1.18rem);font-weight:700;line-height:1.35}
+.q-actions{display:flex;gap:6px;margin-left:auto}
+.star.on{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.toggle-ans{margin-top:12px;display:inline-flex;align-items:center;gap:.4rem}
+.chev{font-size:.8rem}
+.answer{display:none;margin-top:12px;background:var(--navy-soft);border-radius:10px;padding:14px 16px;border-left:3px solid var(--navy)}
+.card.open .answer{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.answer-text{margin:0 0 10px;line-height:1.7}
+.answer-foot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between}
+.badge{display:inline-block;padding:.22rem .65rem;border-radius:999px;font-size:.74rem;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.b-green{background:var(--green-soft);color:var(--green)}
+.b-amber{background:var(--amber-soft);color:var(--amber)}
+.b-type{background:var(--accent-soft);color:var(--accent)}
+mark.ph{background:var(--amber-soft);color:var(--amber);padding:0 .25em;border-radius:5px;font-weight:700}
+.notes{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px}
+.notes-toggle{border:none;background:none;color:var(--muted);font-weight:600;padding:2px 0}
+.notes-toggle:hover{color:var(--navy)}
+textarea{width:100%;min-height:84px;margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;line-height:1.55;resize:vertical}
+textarea:focus{border-color:var(--navy);outline:none}
+.save-hint{font-size:.75rem;color:var(--muted);margin:.35rem 0 0}
+
+/* ---------- flashcards ---------- */
+.fc-scene{perspective:1400px;max-width:620px;margin:18px auto 0}
+.fc-card{display:grid;cursor:pointer;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.7,.3,1)}
+.fc-card.flipped{transform:rotateY(180deg)}
+.fc-face{grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid var(--line);background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:clamp(18px,4vw,30px);display:flex;flex-direction:column;gap:12px}
+.fc-back{transform:rotateY(180deg)}
+.fc-label{font-size:.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.fc-q{margin:2px 0 0;color:var(--navy);font-size:clamp(1.25rem,2.5vw + 1rem,1.65rem);line-height:1.3;font-weight:800}
+.fc-hint{margin-top:auto;color:var(--muted);font-size:.85rem}
+.fc-a{margin:0;font-size:clamp(1rem,.4vw + .95rem,1.07rem);line-height:1.7}
+.fc-actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap;padding-top:10px}
+.fc-controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:16px 0 8px}
+.fc-tip{text-align:center;color:var(--muted);font-size:.85rem;margin:4px 0 0}
+
+/* ---------- phrases ---------- */
+.phrase-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:14px;margin-top:6px}
+.phrase{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px}
+.p-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.p-phrase{margin:0;font-size:1.02rem;color:var(--navy);line-height:1.35}
+.p-meaning{margin:0;font-size:.9rem}
+.p-example{margin:0;color:var(--muted);font-size:.84rem;font-style:italic}
+.phrase .btn{align-self:flex-start;margin-top:auto}
+
+/* ---------- how to ---------- */
+.steps{margin:10px 0 0;padding-left:1.35em}
+.steps li{margin:.55em 0}
+.tip-box{background:var(--navy-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-top:20px}
+.tip-box h3{margin:0 0 8px;color:var(--navy)}
+.tip-box ul{margin:0;padding-left:1.25em}
+.tip-box li{margin:.45em 0}
+
+.footer{margin:36px 0 26px;color:var(--muted);font-size:.83rem;border-top:1px solid var(--line);padding-top:16px}
+[hidden]{display:none!important}
+
+@media (max-width:560px){
+  .q-num{min-width:30px;height:30px;font-size:.9rem}
+  .q-actions{gap:4px}
+  .fc-controls .btn{flex:1 1 auto}
+  .toolbar .btn{flex:1 1 auto}
+  .hint{flex-basis:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+@media print{
+  body{background:#fff;color:#000}
+  .tabs-bar,.topic-bar,.toolbar,.q-actions,.listen,.fc-controls,.notes,.icon-btn,.link-btn,.fc-tip,#cards,#phrases,#howto,.save-hint{display:none!important}
+  main>section{display:block!important}
+  .answer{display:block!important}
+  .card{box-shadow:none;break-inside:avoid}
+  .fc-face{box-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <div>
+      <p class="kicker">IELTS Speaking · Part 1 · Topic <span id="topicIdx">1</span> of <span id="topicTotal">1</span></p>
+      <h1 id="topicTitle">Study / Work</h1>
+      <p class="sub" id="topicSub">9 questions · sample answers · key phrases — works fully offline</p>
+    </div>
+    <button id="themeBtn" class="icon-btn" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+  </div>
+  <div class="wrap progress-wrap">
+    <div class="progress-meta">
+      <span id="progressLabel">Practised 0 / 9</span>
+      <button id="resetBtn" class="link-btn" title="Clears practised marks for all topics">Reset progress</button>
+    </div>
+    <div class="bar"><div id="barFill" class="fill"></div></div>
+  </div>
+</header>
+
+<nav class="tabs-bar" aria-label="Sections">
+  <div class="wrap tabs" role="tablist">
+    <button class="tab active" data-tab="study" role="tab" aria-selected="true">📖 Study</button>
+    <button class="tab" data-tab="cards" role="tab" aria-selected="false">🃏 Flashcards</button>
+    <button class="tab" data-tab="phrases" role="tab" aria-selected="false">🔑 Key phrases</button>
+    <button class="tab" data-tab="howto" role="tab" aria-selected="false">💡 How to use</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ============ STUDY ============ -->
+  <section id="study" class="panel" role="tabpanel" aria-label="Study questions">
+    <div class="toolbar">
+      <button id="showAll" class="btn">Show all answers</button>
+      <button id="hideAll" class="btn">Hide all answers</button>
+      <span class="hint">Say your own answer first, then reveal the sample. Tap ★ once you can answer without reading.</span>
+    </div>
+    <div id="qlist"></div>
+  </section>
+
+  <!-- ============ FLASHCARDS ============ -->
+  <section id="cards" class="panel" role="tabpanel" aria-label="Flashcards" hidden>
+    <div class="fc-scene">
+      <div id="fcCard" class="fc-card" tabindex="0" role="button" aria-pressed="false" aria-label="Flashcard — tap or press Space to flip">
+        <div class="fc-face fc-front" id="fcFront">
+          <p class="fc-label">Question <span id="fcCount">1 / 9</span></p>
+          <h2 id="fcQ" class="fc-q">…</h2>
+          <p class="fc-hint">Tap the card to reveal the sample answer</p>
+        </div>
+        <div class="fc-face fc-back" id="fcBack" aria-hidden="true">
+          <p class="fc-label">Sample answer <span id="fcTag" class="badge b-green">From the worksheet</span></p>
+          <p id="fcA" class="fc-a">…</p>
+          <div class="fc-actions">
+            <button id="fcStar" class="btn small">☆ Mark practised</button>
+            <button id="fcListen" class="btn small listen">🔊 Listen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-controls">
+      <button id="fcPrev" class="btn">← Prev</button>
+      <button id="fcFlip" class="btn">Flip</button>
+      <button id="fcNext" class="btn">Next →</button>
+      <button id="fcShuffle" class="btn">🔀 Shuffle</button>
+    </div>
+    <p class="fc-tip">Speak your answer aloud before flipping — aim for 20–30 seconds. ← / → to move, Space to flip.</p>
+  </section>
+
+  <!-- ============ KEY PHRASES ============ -->
+  <section id="phrases" class="panel" role="tabpanel" aria-label="Key phrases" hidden>
+    <p class="panel-intro">Expressions taken straight from the worksheet answers of the selected topic. Learn them as building blocks, then reuse them in answers of your own.</p>
+    <div id="phraseGrid" class="phrase-grid"></div>
+  </section>
+
+  <!-- ============ HOW TO USE ============ -->
+  <section id="howto" class="panel" role="tabpanel" aria-label="How to use this guide" hidden>
+    <h2 style="color:var(--navy)">How to use this guide</h2>
+    <ol class="steps">
+      <li><strong>Study</strong> — read a question and say your own answer aloud first. Then tap “Show sample answer” and compare: notice the <em>phrases</em> the speaker uses, not the whole paragraph.</li>
+      <li><strong>Flashcards</strong> — question on the front, sample answer on the back. Speak for 20–30 seconds before you flip, then check what you missed.</li>
+      <li><strong>Mark progress</strong> — tap ★ (or “Mark practised” on a flashcard) once you can answer smoothly without reading. The bar at the top remembers it, even after you close the file.</li>
+      <li><strong>My notes</strong> — open the notes box under any question and rewrite the answer about <em>your</em> name, <em>your</em> studies and <em>your</em> examples. It saves automatically in this browser.</li>
+      <li><strong>Key phrases</strong> — the building blocks extracted from the worksheet answers, each with its meaning and the sentence it came from. Tap 🔊 to hear any question, answer or phrase.</li>
+    </ol>
+    <div class="tip-box">
+      <h3>Exam tips for Part 1</h3>
+      <ul>
+        <li>Answer in 2–4 sentences: direct answer → reason → example or detail.</li>
+        <li>Don’t memorise full paragraphs — examiners can tell. Learn the phrases, then rebuild the answer in your own words.</li>
+        <li>Fillers are fine: “Well…”, “You see…”, “So I guess…”, “You know…” — the worksheet answers use them naturally.</li>
+        <li>Record yourself on your phone, then compare with the 🔊 audio of the sample answer.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Based on the uploaded worksheet (f2.PNG) — IELTS-style speaking practice on the topic “Study / Work”. One self-contained file: no internet connection needed, and your progress and notes are stored only in this browser (localStorage). Audio uses your device’s built-in speech synthesis.</p>
+    <p>Corrections of small typos in the source scan: “<s>Im</s> → I’m studying”, “<s>A’ Levels</s> → A Levels”, plus light punctuation clean-up. One sample answer is cut off mid-sentence in the source (“…apply to a foreign university…”) and one keeps its original blank (“<mark class="ph">XXXXXX</mark> University” — swap in your own university). Question 2 had no sample answer in the source, so it got an extra model answer, marked in amber.</p>
+  </footer>
+</main>
+
+<noscript>
+  <div style="max-width:880px;margin:20px auto;padding:16px;border:1px solid #b42318;border-radius:12px;color:#b42318;font-family:sans-serif">
+    This study guide needs JavaScript for its interactive features (flashcards, progress, notes). Please enable JavaScript and reload.
+  </div>
+</noscript>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------------- data ---------------- */
+var TOPICS = [
+  {id:"study", emoji:"🎓", title:"Study / Work"}
+];
+
+var DATA = [
+  /* ---- topic: Study / Work (source: f2.PNG) ---- */
+  {id:"study-1", topic:"study", q:"Do you work or are you a student?", tag:"worksheet",
+   a:"I’m currently a student at a High School. I’m studying A Levels in order to go to a university in Britain."},
+  {id:"study-2", topic:"study", q:"Is that a popular subject in your country?", tag:"extra",
+   a:"Yes, I’d say so. At my school most students take science subjects, because the majority of us are hoping to apply to foreign universities. And in China generally, business and computing are probably the most popular choices, since people believe they lead to good jobs."},
+  {id:"study-3", topic:"study", q:"What are the most popular subjects in China?", tag:"worksheet",
+   a:"In my opinion business is probably the first choice for most students. Nearly everyone wants to be rich so they think that majoring in business would help them achieve this goal. I guess the second most prevalent subject would be computing. You know many students like to play computer games so there is no doubt that people are into that subject."},
+  {id:"study-4", topic:"study", q:"Why did you choose that university?", tag:"worksheet",
+   a:'I would love to go to <mark class="ph">XXXXXX</mark> University – I have an offer for that university right now but of course I need to get a good IELTS score.',
+   say:"I would love to go to my dream university — I have an offer for that university right now, but of course I need to get a good IELTS score."},
+  {id:"study-5", topic:"study", q:"What are your favourite classes / courses / subjects at university?", tag:"worksheet",
+   a:"At my school we really focus on the science subjects and English. Since most students will apply to a foreign university…"}
+];
+
+var PHRASES = [
+  /* ---- topic: Study / Work ---- */
+  {topic:"study", phrase:"currently", type:"time marker",
+   meaning:"At the present time — a natural opener for a “work or study?” answer.",
+   example:"I’m currently a student at a High School."},
+  {topic:"study", phrase:"in order to", type:"purpose linker",
+   meaning:"Joins an action to its goal — says why you do something.",
+   example:"I’m studying A Levels in order to go to a university in Britain."},
+  {topic:"study", phrase:"focus on", type:"phrasal verb",
+   meaning:"To give most of your attention to something.",
+   example:"At my school we really focus on the science subjects and English."},
+  {topic:"study", phrase:"major in", type:"verb phrase (AmE)",
+   meaning:"To study something as your main subject at university.",
+   example:"…majoring in business would help them achieve this goal."},
+  {topic:"study", phrase:"the first choice for …", type:"collocation",
+   meaning:"What most people pick first.",
+   example:"Business is probably the first choice for most students."},
+  {topic:"study", phrase:"achieve this goal", type:"collocation",
+   meaning:"To succeed in doing what you planned.",
+   example:"…would help them achieve this goal."},
+  {topic:"study", phrase:"I guess …", type:"hedging",
+   meaning:"A softener that makes an opinion sound natural and friendly.",
+   example:"I guess the second most prevalent subject would be computing."},
+  {topic:"study", phrase:"prevalent", type:"adjective · formal",
+   meaning:"Common; seen often in a place or group.",
+   example:"The second most prevalent subject would be computing."},
+  {topic:"study", phrase:"be into something", type:"phrasal verb · informal",
+   meaning:"To be interested in or enthusiastic about something.",
+   example:"There is no doubt that people are into that subject."},
+  {topic:"study", phrase:"There is no doubt that …", type:"emphasis structure",
+   meaning:"A confident way to introduce an opinion you are sure of.",
+   example:"…there is no doubt that people are into that subject."},
+  {topic:"study", phrase:"In my opinion …", type:"opinion opener",
+   meaning:"Signals that what follows is your personal view.",
+   example:"In my opinion business is probably the first choice for most students."},
+  {topic:"study", phrase:"have an offer (from a university)", type:"admissions term",
+   meaning:"A university has accepted you — you hold a place there.",
+   example:"I have an offer for that university right now."},
+  {topic:"study", phrase:"would love to", type:"strong wish",
+   meaning:"To want something very much (stronger than “would like to”).",
+   example:"I would love to go to … University."},
+  {topic:"study", phrase:"get a good IELTS score", type:"collocation",
+   meaning:"To achieve the band score you need.",
+   example:"…of course I need to get a good IELTS score."}
+];
+
+/* ---------------- helpers ---------------- */
+function stripTags(s){ return String(s).replace(/<[^>]+>/g,""); }
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+var LS = {
+  get:function(k,fb){ try{ var v=localStorage.getItem(k); return v===null?fb:JSON.parse(v);}catch(e){ return fb; } },
+  set:function(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+};
+var TTS = ("speechSynthesis" in window) && ("SpeechSynthesisUtterance" in window);
+function speak(text){
+  if(!TTS) return;
+  try{
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US"; u.rate = 0.95; u.pitch = 1;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* ---------------- state (with migration from the single-topic version) ---------------- */
+function migrateIds(list){
+  return (Array.isArray(list) ? list : []).map(function(x){
+    return typeof x === "number" ? ("name-" + x) : x;
+  });
+}
+var practised = new Set(migrateIds(LS.get("nsg_practised", [])));
+
+var notes = {};
+var notesRaw = LS.get("nsg_notes", {});
+Object.keys(notesRaw).forEach(function(k){
+  notes[/^\d+$/.test(k) ? ("name-" + k) : k] = notesRaw[k];
+});
+
+var currentTopic = (function(){
+  var saved = LS.get("nsg_topic", "name");
+  return TOPICS.some(function(t){ return t.id === saved; }) ? saved : TOPICS[0].id;
+})();
+function currentItems(){ return DATA.filter(function(d){ return d.topic === currentTopic; }); }
+
+/* ---------------- render: study cards ---------------- */
+var qlist = document.getElementById("qlist");
+function renderStudy(){
+  var frag = document.createDocumentFragment();
+  currentItems().forEach(function(item){
+    var el = document.createElement("article");
+    el.className = "card";
+    el.dataset.id = item.id;
+    var badge = item.tag === "worksheet"
+      ? '<span class="badge b-green">From the worksheet</span>'
+      : '<span class="badge b-amber">Extra model answer</span>';
+    el.innerHTML =
+      '<div class="q-row">' +
+        '<span class="q-num" aria-hidden="true">' + item.id.split("-")[1] + '</span>' +
+        '<h2 class="q-text">' + item.q + '</h2>' +
+        '<div class="q-actions">' +
+          '<button class="icon-btn listen" data-say="' + esc(stripTags(item.q)) + '" aria-label="Listen to this question">🔊</button>' +
+          '<button class="icon-btn star" aria-pressed="false" aria-label="Mark as practised">☆</button>' +
+        '</div>' +
+      '</div>' +
+      '<button class="btn toggle-ans" aria-expanded="false">Show sample answer <span class="chev">▾</span></button>' +
+      '<div class="answer">' +
+        '<p class="answer-text">' + item.a + '</p>' +
+        '<div class="answer-foot">' + badge +
+          '<button class="btn small listen" data-say="' + esc(item.say || stripTags(item.a)) + '">🔊 Listen</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="notes">' +
+        '<button class="notes-toggle" aria-expanded="false">📝 My notes</button>' +
+        '<div class="notes-body" hidden>' +
+          '<textarea class="note-input" placeholder="Rewrite this answer in your own words — your name, your studies, your examples…" aria-label="Notes for this question"></textarea>' +
+          '<p class="save-hint">Auto-saves in this browser</p>' +
+        '</div>' +
+      '</div>';
+    var ta = el.querySelector(".note-input");
+    if(notes[item.id]) ta.value = notes[item.id];
+    frag.appendChild(el);
+  });
+  qlist.replaceChildren(frag);
+}
+
+/* ---------------- render: key phrases ---------------- */
+var pg = document.getElementById("phraseGrid");
+function renderPhrases(){
+  var frag = document.createDocumentFragment();
+  PHRASES.filter(function(p){ return p.topic === currentTopic; }).forEach(function(p){
+    var el = document.createElement("article");
+    el.className = "phrase";
+    el.innerHTML =
+      '<div class="p-head"><h3 class="p-phrase">' + p.phrase + '</h3>' +
+        '<span class="badge b-type">' + p.type + '</span></div>' +
+      '<p class="p-meaning">' + p.meaning + '</p>' +
+      '<p class="p-example">“' + p.example + '”</p>' +
+      '<button class="btn small listen" data-say="' + esc(p.phrase + ". " + p.example) + '">🔊 Listen</button>';
+    frag.appendChild(el);
+  });
+  pg.replaceChildren(frag);
+}
+
+/* ---------------- global listen handler ---------------- */
+document.addEventListener("click", function(e){
+  var b = e.target.closest(".listen");
+  if(b && b.dataset.say) speak(b.dataset.say);
+});
+
+/* ---------------- study card interactions ---------------- */
+qlist.addEventListener("click", function(e){
+  if(e.target.closest(".listen")) return; // handled globally
+  var card = e.target.closest(".card");
+  if(!card) return;
+  var t = e.target.closest("button");
+  if(!t) return;
+  var id = card.dataset.id;
+
+  if(t.classList.contains("star")){
+    togglePractised(id);
+    return;
+  }
+  if(t.classList.contains("toggle-ans")){
+    var open = card.classList.toggle("open");
+    t.setAttribute("aria-expanded", String(open));
+    t.innerHTML = open ? 'Hide sample answer <span class="chev">▴</span>' : 'Show sample answer <span class="chev">▾</span>';
+    return;
+  }
+  if(t.classList.contains("notes-toggle")){
+    var body = card.querySelector(".notes-body");
+    var show = body.hasAttribute("hidden");
+    if(show){ body.removeAttribute("hidden"); } else { body.setAttribute("hidden",""); }
+    t.setAttribute("aria-expanded", String(show));
+    return;
+  }
+});
+qlist.addEventListener("input", function(e){
+  if(!e.target.classList.contains("note-input")) return;
+  var card = e.target.closest(".card");
+  var id = card.dataset.id;
+  notes[id] = e.target.value;
+  LS.set("nsg_notes", notes);
+  var hint = card.querySelector(".save-hint");
+  hint.textContent = "Saved ✓";
+  clearTimeout(hint._t);
+  hint._t = setTimeout(function(){ hint.textContent = "Auto-saves in this browser"; }, 1500);
+});
+
+/* ---------------- progress ---------------- */
+var progressLabel = document.getElementById("progressLabel");
+var barFill = document.getElementById("barFill");
+function updateProgress(){
+  var total = currentItems().length;
+  var n = currentItems().filter(function(it){ return practised.has(it.id); }).length;
+  progressLabel.textContent = "Practised " + n + " / " + total;
+  barFill.style.width = (total ? n / total * 100 : 0) + "%";
+}
+function paintStar(id){
+  var card = qlist.querySelector('.card[data-id="' + id + '"]');
+  if(!card) return;
+  var b = card.querySelector(".star");
+  var on = practised.has(id);
+  b.textContent = on ? "★" : "☆";
+  b.setAttribute("aria-pressed", String(on));
+  b.classList.toggle("on", on);
+  card.classList.toggle("done", on);
+}
+function togglePractised(id){
+  if(practised.has(id)) practised.delete(id); else practised.add(id);
+  LS.set("nsg_practised", Array.from(practised));
+  paintStar(id);
+  updateProgress();
+  syncFlashcardStar();
+}
+
+/* show / hide all answers */
+function setAll(open){
+  qlist.querySelectorAll(".card").forEach(function(card){
+    card.classList.toggle("open", open);
+    var t = card.querySelector(".toggle-ans");
+    t.setAttribute("aria-expanded", String(open));
+    t.innerHTML = open ? 'Hide sample answer <span class="chev">▴</span>' : 'Show sample answer <span class="chev">▾</span>';
+  });
+}
+document.getElementById("showAll").addEventListener("click", function(){ setAll(true); });
+document.getElementById("hideAll").addEventListener("click", function(){ setAll(false); });
+
+/* two-step reset (no native confirm dialogs) */
+var resetBtn = document.getElementById("resetBtn");
+var resetTimer = null;
+resetBtn.addEventListener("click", function(){
+  if(!resetTimer){
+    resetBtn.textContent = "Tap again to confirm";
+    resetBtn.classList.add("danger");
+    resetTimer = setTimeout(function(){
+      resetTimer = null;
+      resetBtn.textContent = "Reset progress";
+      resetBtn.classList.remove("danger");
+    }, 3000);
+  } else {
+    clearTimeout(resetTimer); resetTimer = null;
+    practised.clear();
+    LS.set("nsg_practised", []);
+    currentItems().forEach(function(it){ paintStar(it.id); });
+    updateProgress(); syncFlashcardStar();
+    resetBtn.textContent = "Reset progress";
+    resetBtn.classList.remove("danger");
+  }
+});
+
+/* ---------------- tabs ---------------- */
+var tabs = document.querySelectorAll(".tab");
+tabs.forEach(function(tb){
+  tb.addEventListener("click", function(){
+    tabs.forEach(function(x){
+      x.classList.toggle("active", x === tb);
+      x.setAttribute("aria-selected", String(x === tb));
+    });
+    document.querySelectorAll(".panel").forEach(function(p){
+      p.hidden = (p.id !== tb.dataset.tab);
+    });
+    LS.set("nsg_tab", tb.dataset.tab);
+  });
+});
+
+/* ---------------- topic picker ---------------- */
+var pills = document.querySelectorAll(".topic-pill");
+function updateTopicUI(){
+  var idx = TOPICS.findIndex(function(t){ return t.id === currentTopic; });
+  var t = TOPICS[idx];
+  document.getElementById("topicIdx").textContent = idx + 1;
+  document.getElementById("topicTitle").textContent = t.title;
+  var items = currentItems();
+  var w = items.filter(function(i){ return i.tag === "worksheet"; }).length;
+  var x = items.length - w;
+  var p = PHRASES.filter(function(ph){ return ph.topic === currentTopic; }).length;
+  document.getElementById("topicSub").textContent =
+    items.length + " questions · " + w + " worksheet answer" + (w === 1 ? "" : "s") +
+    " · " + x + " extra model" + (x === 1 ? "" : "s") + " · " + p + " key phrases — works fully offline";
+  pills.forEach(function(pl){
+    var on = pl.dataset.topic === currentTopic;
+    pl.classList.toggle("active", on);
+    pl.setAttribute("aria-selected", String(on));
+  });
+}
+pills.forEach(function(pl){
+  pl.addEventListener("click", function(){
+    if(pl.dataset.topic === currentTopic) return;
+    currentTopic = pl.dataset.topic;
+    LS.set("nsg_topic", currentTopic);
+    renderAll();
+  });
+});
+
+/* ---------------- flashcards ---------------- */
+var fcCard = document.getElementById("fcCard");
+var fcFront = document.getElementById("fcFront");
+var fcBack = document.getElementById("fcBack");
+var fcQ = document.getElementById("fcQ");
+var fcA = document.getElementById("fcA");
+var fcCount = document.getElementById("fcCount");
+var fcTag = document.getElementById("fcTag");
+var fcStar = document.getElementById("fcStar");
+var fcFlipBtn = document.getElementById("fcFlip");
+var fcPrev = document.getElementById("fcPrev");
+var fcNext = document.getElementById("fcNext");
+var fcShuffle = document.getElementById("fcShuffle");
+var fcListen = document.getElementById("fcListen");
+
+var fcOrder = [];
+var fcPos = 0;
+var fcFlipped = false;
+
+function currentItem(){ return currentItems()[fcOrder[fcPos]]; }
+function fcRender(){
+  var item = currentItem();
+  fcQ.textContent = item.q;
+  fcA.innerHTML = item.a;
+  fcCount.textContent = (fcPos + 1) + " / " + currentItems().length;
+  if(item.tag === "worksheet"){
+    fcTag.textContent = "From the worksheet";
+    fcTag.className = "badge b-green";
+  } else {
+    fcTag.textContent = "Extra model answer";
+    fcTag.className = "badge b-amber";
+  }
+  fcFlipped = false;
+  fcCard.classList.remove("flipped");
+  fcCard.setAttribute("aria-pressed", "false");
+  fcFront.setAttribute("aria-hidden", "false");
+  fcBack.setAttribute("aria-hidden", "true");
+  syncFlashcardStar();
+}
+function fcFlip(){
+  fcFlipped = !fcFlipped;
+  fcCard.classList.toggle("flipped", fcFlipped);
+  fcCard.setAttribute("aria-pressed", String(fcFlipped));
+  fcFront.setAttribute("aria-hidden", String(fcFlipped));
+  fcBack.setAttribute("aria-hidden", String(!fcFlipped));
+}
+function fcGo(delta){
+  fcPos = (fcPos + delta + currentItems().length) % currentItems().length;
+  fcRender();
+}
+function syncFlashcardStar(){
+  var item = currentItem();
+  var on = practised.has(item.id);
+  fcStar.textContent = on ? "★ Practised" : "☆ Mark practised";
+  fcStar.classList.toggle("on", on);
+}
+fcCard.addEventListener("click", function(e){
+  if(e.target.closest(".fc-actions")) return;
+  fcFlip();
+});
+fcCard.addEventListener("keydown", function(e){
+  if(e.key === " " || e.key === "Enter"){
+    e.preventDefault();
+    fcFlip();
+  }
+});
+fcFlipBtn.addEventListener("click", fcFlip);
+fcPrev.addEventListener("click", function(){ fcGo(-1); });
+fcNext.addEventListener("click", function(){ fcGo(1); });
+fcShuffle.addEventListener("click", function(){
+  for(var i = fcOrder.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = fcOrder[i]; fcOrder[i] = fcOrder[j]; fcOrder[j] = tmp;
+  }
+  fcPos = 0;
+  fcRender();
+  fcShuffle.textContent = "🔀 Shuffled!";
+  setTimeout(function(){ fcShuffle.textContent = "🔀 Shuffle"; }, 1200);
+});
+fcStar.addEventListener("click", function(e){
+  e.stopPropagation();
+  togglePractised(currentItem().id);
+});
+fcListen.addEventListener("click", function(e){
+  e.stopPropagation();
+  speak(currentItem().say || stripTags(currentItem().a));
+});
+document.addEventListener("keydown", function(e){
+  if(e.target.matches("textarea, input")) return;
+  var cardsPanel = document.getElementById("cards");
+  if(cardsPanel.hidden) return;
+  if(e.key === "ArrowRight"){ fcGo(1); }
+  else if(e.key === "ArrowLeft"){ fcGo(-1); }
+  else if(e.key === " " || e.key === "Enter"){
+    if(e.target === document.body){ e.preventDefault(); fcFlip(); }
+  }
+});
+
+/* ---------------- theme ---------------- */
+var themeBtn = document.getElementById("themeBtn");
+function setTheme(t){
+  document.documentElement.dataset.theme = t;
+  themeBtn.textContent = (t === "dark") ? "☀️" : "🌙";
+  themeBtn.setAttribute("aria-label", "Toggle " + (t === "dark" ? "light" : "dark") + " mode");
+  LS.set("nsg_theme", t);
+}
+themeBtn.addEventListener("click", function(){
+  setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+});
+
+/* ---------------- init ---------------- */
+function renderAll(){
+  renderStudy();
+  renderPhrases();
+  fcOrder = currentItems().map(function(_, i){ return i; });
+  fcPos = 0;
+  fcRender();
+  updateTopicUI();
+  updateProgress();
+  currentItems().forEach(function(it){ paintStar(it.id); });
+  if(!TTS){
+    document.querySelectorAll(".listen").forEach(function(b){ b.hidden = true; });
+  }
+}
+var savedTab = LS.get("nsg_tab", "study");
+var tabBtn = document.querySelector('.tab[data-tab="' + savedTab + '"]');
+if(tabBtn) tabBtn.click();
+setTheme(LS.get("nsg_theme", (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light"));
+renderAll();
+})();
+</script>
+</body>
+</html>
